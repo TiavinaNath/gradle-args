@@ -38,6 +38,12 @@ jobs:
               (github.ref == 'refs/heads/prod') && secrets.PROD_API_KEY ||
               (github.ref == 'refs/heads/preprod') && secrets.PREPROD_API_KEY
               }}
+      HAFA: ${{
+              (github.event_name == 'pull_request' && github.base_ref == 'prod') && secrets.PROD_HAFA ||
+              (github.event_name == 'pull_request' && github.base_ref == 'preprod') && secrets.PREPROD_HAFA ||
+              (github.ref == 'refs/heads/prod') && secrets.PROD_HAFA ||
+              (github.ref == 'refs/heads/preprod') && secrets.PREPROD_HAFA
+              }}
 
 
     steps:
@@ -53,7 +59,8 @@ jobs:
           ./gradlew test \
             -Dorange.api.url="$ORANGE_API_URL" \
             -Dvola.api.key="$VOLA_API_KEY" \
-            -Dapi.key="$API_KEY"
+            -Dapi.key="$API_KEY" \
+            -Dhafa="$HAFA"
 
 
       
