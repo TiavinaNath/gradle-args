@@ -52,6 +52,12 @@ jobs:
               (github.ref == 'refs/heads/prod') && secrets.PROD_HAFA ||
               (github.ref == 'refs/heads/preprod') && secrets.PREPROD_HAFA
               }}
+      LAST: ${{
+              (github.event_name == 'pull_request' && github.base_ref == 'prod') && secrets.PROD_LAST ||
+              (github.event_name == 'pull_request' && github.base_ref == 'preprod') && secrets.PREPROD_LAST ||
+              (github.ref == 'refs/heads/prod') && secrets.PROD_LAST ||
+              (github.ref == 'refs/heads/preprod') && secrets.PREPROD_LAST
+              }}
 
     steps:
       - uses: actions/checkout@v4.1.6
